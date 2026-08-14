@@ -31,7 +31,7 @@ export const HomePage = () => {
 
   return (
     <div className={styles.home}>
-      <h1 className={styles['home-title']}>Welcome to Nice Gadgets store!</h1>
+      <h1 className={styles['home-title']}>Product Catalog</h1>
 
       <div className={styles.home__slider}>
         <PicturesSlider />
