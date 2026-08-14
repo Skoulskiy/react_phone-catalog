@@ -205,13 +205,13 @@ export const ProductDetailsPage = () => {
                       : ''
                   }`}
                 >
-                  <img src={`/${img}`} alt="thumbnail" />
+                  <img src={img} alt="thumbnail" />
                 </button>
               ))}
             </div>
 
             <div className={styles.itemCard__mainImage}>
-              <img src={`/${selectedImage}`} alt={name} />
+              <img src={selectedImage} alt={name} />
             </div>
           </div>
 

@@ -46,7 +46,7 @@ export const CartPage: React.FC = () => {
                       ✕
                     </button>
                     <img
-                      src={`/${product.image}`}
+                      src={product.image}
                       alt={product.name}
                       className={styles.cartItem__image}
                     />

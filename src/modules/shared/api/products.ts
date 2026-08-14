@@ -1,10 +1,12 @@
 import { Product } from '../types/Product';
 import { ProductDetails } from '../types/ProductDetails';
 
-const BASE_URL = `${import.meta.env.BASE_URL}api`;
+const BASE_URL = `${import.meta.env.BASE_URL}api/`;
 
 async function request<T>(url: string): Promise<T> {
-  const response = await fetch(`${BASE_URL}${url}`);
+  const cleanUrl = url.startsWith('/') ? url.slice(1) : url;
+
+  const response = await fetch(`${BASE_URL}${cleanUrl}`);
 
   if (!response.ok) {
     throw new Error('Failed to load data');
@@ -13,17 +15,37 @@ async function request<T>(url: string): Promise<T> {
   return response.json();
 }
 
-export const getProducts = () => {
-  return request<Product[]>('/products.json');
+export const fixImageUrl = (path: string): string => {
+  if (!path) return '';
+  let cleanPath = path.replace(/^\/+/, '');
+
+  const repoName = 'react_phone-catalog';
+  if (cleanPath.startsWith(repoName)) {
+    cleanPath = cleanPath.replace(new RegExp(`^${repoName}/?`), '');
+  }
+
+  const baseUrl = import.meta.env.BASE_URL;
+  const prefix = baseUrl.endsWith('/') ? baseUrl : `${baseUrl}/`;
+
+  return `${prefix}${cleanPath}`;
+};
+
+export const getProducts = async (): Promise<Product[]> => {
+  const products = await request<Product[]>('products.json');
+
+  return products.map(product => ({
+    ...product,
+    image: fixImageUrl(product.image),
+  }));
 };
 
 export const getProductDetails = async (
   productId: string,
 ): Promise<ProductDetails> => {
   const [phones, tablets, accessories] = await Promise.all([
-    request<ProductDetails[]>('/phones.json').catch(() => []),
-    request<ProductDetails[]>('/tablets.json').catch(() => []),
-    request<ProductDetails[]>('/accessories.json').catch(() => []),
+    request<ProductDetails[]>('phones.json').catch(() => []),
+    request<ProductDetails[]>('tablets.json').catch(() => []),
+    request<ProductDetails[]>('accessories.json').catch(() => []),
   ]);
 
   const allDetails = [...phones, ...tablets, ...accessories];
@@ -33,7 +55,10 @@ export const getProductDetails = async (
     throw new Error(`Product with id ${productId} not found`);
   }
 
-  return found;
+  return {
+    ...found,
+    images: found.images.map(fixImageUrl),
+  };
 };
 
 export const getProductById = async (

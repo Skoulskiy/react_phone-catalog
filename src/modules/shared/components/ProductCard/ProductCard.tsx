@@ -64,7 +64,7 @@ export const ProductCard = ({ product }: Props) => {
     <div className={styles.card}>
       <Link to={productUrl} className={styles.card__imageLink}>
         <figure className={styles.card__imageContainer}>
-          <img src={`/${image}`} alt={name} className={styles.card__image} />
+          <img src={image} alt={name} className={styles.card__image} />
         </figure>
       </Link>
 
