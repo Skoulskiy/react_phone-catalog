@@ -1,12 +1,10 @@
 import { Product } from '../types/Product';
 import { ProductDetails } from '../types/ProductDetails';
 
-const BASE_URL = `${import.meta.env.BASE_URL}api/`;
-
 async function request<T>(url: string): Promise<T> {
-  const cleanUrl = url.startsWith('/') ? url.slice(1) : url;
-
-  const response = await fetch(`${BASE_URL}${cleanUrl}`);
+  const cleanUrl = url.replace(/^\/+/, '');
+  const apiPath = cleanUrl.startsWith('api/') ? cleanUrl : `api/${cleanUrl}`;
+  const response = await fetch(`./${apiPath}`);
 
   if (!response.ok) {
     throw new Error('Failed to load data');
@@ -17,17 +15,8 @@ async function request<T>(url: string): Promise<T> {
 
 export const fixImageUrl = (path: string): string => {
   if (!path) return '';
-  let cleanPath = path.replace(/^\/+/, '');
 
-  const repoName = 'react_phone-catalog';
-  if (cleanPath.startsWith(repoName)) {
-    cleanPath = cleanPath.replace(new RegExp(`^${repoName}/?`), '');
-  }
-
-  const baseUrl = import.meta.env.BASE_URL;
-  const prefix = baseUrl.endsWith('/') ? baseUrl : `${baseUrl}/`;
-
-  return `${prefix}${cleanPath}`;
+  return `./${path.replace(/^\/+/, '')}`;
 };
 
 export const getProducts = async (): Promise<Product[]> => {
