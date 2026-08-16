@@ -1,5 +1,5 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { useCart, CartItem } from '../shared/context/CartContext';
 import styles from './CartPage.module.scss';
 
@@ -33,6 +33,10 @@ export const CartPage: React.FC = () => {
           <div className={styles.cartPage__list}>
             {cart.map(({ product, quantity }: CartItem) => {
               const productId = product.itemId || product.id;
+              
+              const productUrl = product.category
+                ? `/${product.category}/${productId}`
+                : `/products/${productId}`;
 
               return (
                 <div key={productId} className={styles.cartItem}>
@@ -45,14 +49,17 @@ export const CartPage: React.FC = () => {
                     >
                       ✕
                     </button>
-                    <img
-                      src={product.image}
-                      alt={product.name}
-                      className={styles.cartItem__image}
-                    />
-                    <span className={styles.cartItem__title}>
-                      {product.name}
-                    </span>
+
+                    <Link to={productUrl} className={styles.cartItem__link}>
+                      <img
+                        src={product.image}
+                        alt={product.name}
+                        className={styles.cartItem__image}
+                      />
+                      <span className={styles.cartItem__title}>
+                        {product.name}
+                      </span>
+                    </Link>
                   </div>
 
                   <div className={styles.cartItem__bottom}>

@@ -40,9 +40,11 @@ export const ProductsSlider = ({
       ));
     }
 
+    const isDiscounted = title === 'Hot prices'; 
+
     return products.map(product => (
       <div key={product.id} className={styles.slider__slide}>
-        <ProductCard product={product} />
+        <ProductCard product={product} isDiscounted={isDiscounted}/>
       </div>
     ));
   };

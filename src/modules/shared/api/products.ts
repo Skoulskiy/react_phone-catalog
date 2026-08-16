@@ -14,7 +14,9 @@ async function request<T>(url: string): Promise<T> {
 }
 
 export const fixImageUrl = (path: string): string => {
-  if (!path) return '';
+  if (!path) {
+    return '';
+  }
 
   return `./${path.replace(/^\/+/, '')}`;
 };

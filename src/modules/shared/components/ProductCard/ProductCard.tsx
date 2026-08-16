@@ -10,9 +10,10 @@ import { useCart } from '../../context/CartContext';
 
 interface Props {
   product: Product;
+  isDiscounted?: boolean
 }
 
-export const ProductCard = ({ product }: Props) => {
+export const ProductCard = ({ product, isDiscounted }: Props) => {
   const {
     id,
     itemId,
@@ -73,8 +74,8 @@ export const ProductCard = ({ product }: Props) => {
       </Link>
 
       <div className={styles.card__priceBlock}>
-        <span className={styles.card__price}>${price}</span>
-        {hasDiscount && (
+        <span className={styles.card__price}>${isDiscounted ? price : fullPrice}</span>
+        {isDiscounted && (
           <span className={styles.card__fullPrice}>${fullPrice}</span>
         )}
       </div>
