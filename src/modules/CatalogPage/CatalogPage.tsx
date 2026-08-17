@@ -125,8 +125,6 @@ export const CatalogPage = () => {
 
     params.set('page', newPage.toString());
     setSearchParams(params);
-
-    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   const renderGridContent = () => {

@@ -51,7 +51,7 @@ export const ProductDetailsPage = () => {
   const { addToCart, removeFromCart, isInCart } = useCart();
 
   useEffect(() => {
-    window.scrollTo({ top: 0, behavior: 'auto' });
+    window.scrollTo({ top: 0, behavior: 'smooth' });
     if (!itemId) {
       return;
     }
@@ -178,7 +178,7 @@ export const ProductDetailsPage = () => {
         </nav>
 
         <button
-          onClick={() => navigate(-1)}
+          onClick={() => navigate(`/${category || 'phones'}`)}
           className={styles.itemCard__backBtn}
         >
           <img
@@ -380,7 +380,7 @@ export const ProductDetailsPage = () => {
           <section className={styles.itemCard__recommended}>
             <h2>You may also like</h2>
             <div className={styles.itemCard__recommendedGrid}>
-              {suggested.map(productItem => (
+              {suggested.slice(0, 4).map(productItem => (
                 <ProductCard key={productItem.id} product={productItem} />
               ))}
             </div>

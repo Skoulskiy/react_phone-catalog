@@ -10,7 +10,7 @@ import { useCart } from '../../context/CartContext';
 
 interface Props {
   product: Product;
-  isDiscounted?: boolean
+  isDiscounted?: boolean;
 }
 
 export const ProductCard = ({ product, isDiscounted }: Props) => {
@@ -56,25 +56,40 @@ export const ProductCard = ({ product, isDiscounted }: Props) => {
     }
   };
 
-  const hasDiscount = fullPrice > price;
+  const handleClickLink = (e: React.MouseEvent) => {
+    e.stopPropagation();
+
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
   const productUrl = category
     ? `/${category}/${productId}`
     : `/products/${productId}`;
 
   return (
     <div className={styles.card}>
-      <Link to={productUrl} className={styles.card__imageLink}>
+      <Link
+        to={productUrl}
+        className={styles.card__imageLink}
+        onClick={e => handleClickLink(e)}
+      >
         <figure className={styles.card__imageContainer}>
           <img src={image} alt={name} className={styles.card__image} />
         </figure>
       </Link>
 
-      <Link to={productUrl} className={styles.card__title}>
+      <Link
+        to={productUrl}
+        className={styles.card__title}
+        onClick={e => handleClickLink(e)}
+      >
         {name}
       </Link>
 
       <div className={styles.card__priceBlock}>
-        <span className={styles.card__price}>${isDiscounted ? price : fullPrice}</span>
+        <span className={styles.card__price}>
+          ${isDiscounted ? price : fullPrice}
+        </span>
         {isDiscounted && (
           <span className={styles.card__fullPrice}>${fullPrice}</span>
         )}

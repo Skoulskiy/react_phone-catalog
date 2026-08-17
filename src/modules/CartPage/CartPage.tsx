@@ -11,8 +11,13 @@ export const CartPage: React.FC = () => {
     decreaseQuantity,
     totalPrice,
     totalCount,
+    clearCart,
   } = useCart();
   const navigate = useNavigate();
+
+  const handleCheckout = () => {
+    clearCart();
+  };
 
   return (
     <div className={styles.cartPage}>
@@ -33,7 +38,7 @@ export const CartPage: React.FC = () => {
           <div className={styles.cartPage__list}>
             {cart.map(({ product, quantity }: CartItem) => {
               const productId = product.itemId || product.id;
-              
+
               const productUrl = product.category
                 ? `/${product.category}/${productId}`
                 : `/products/${productId}`;
@@ -100,7 +105,7 @@ export const CartPage: React.FC = () => {
             <button
               type="button"
               className={styles.cartPage__checkoutBtn}
-              onClick={() => alert('Checkout is not implemented yet')}
+              onClick={() => handleCheckout()}
             >
               Checkout
             </button>
